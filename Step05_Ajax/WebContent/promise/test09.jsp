@@ -1,0 +1,56 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/promise/test09.jsp</title>
+</head>
+<body>
+<h1>Promise 테스트</h1>
+<script>
+/*
+ *  Promise 는
+ 	언제 끝날지 모르는 불확실한 비동기 작업을
+ 	콜백지옥에 빠지지 않고
+ 	순서대로 수행할때 사용한다.
+ 	- 특히 작업이 실패했을때 처리가 훨씬 수월함.
+ */
+	function openDoor(){
+		return new Promise(function(resolve){
+			setTimeout(function(){
+				console.log("문을 여는데 1초 걸렸습니다.");
+				resolve();
+			}, 1000);
+		});
+	}
+	function putElephant(){
+		return new Promise(function(resolve){
+			setTimeout(function(){
+				console.log("코끼리를 집어넣는데 3초 걸렸습니다.");
+				resolve();
+			}, 3000);
+		});
+	}
+	function closeDoor(){
+		return new Promise(function(resolve){
+			setTimeout(function(){
+				console.log("문 닫는데 2초 걸렸습니다.");
+				resolve();
+			}, 2000);
+		});
+	}
+	
+	openDoor()
+	.then(function(){
+		return putElephant();
+	})
+	.then(function(){
+		return closeDoor();
+	})
+	.then(function(){
+		console.log("작업이 끝났습니다.");
+	});
+</script>
+</body>
+</html>
